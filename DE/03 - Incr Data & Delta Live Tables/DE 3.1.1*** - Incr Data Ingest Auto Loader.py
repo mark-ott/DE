@@ -1,4 +1,8 @@
 # Databricks notebook source
+display(dbutils.fs.ls("dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/dlt_demo/storage/system/events"))
+
+# COMMAND ----------
+
 # MAGIC %md-sandbox
 # MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">

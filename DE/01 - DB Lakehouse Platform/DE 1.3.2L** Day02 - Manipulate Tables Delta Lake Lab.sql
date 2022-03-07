@@ -58,6 +58,10 @@
 
 -- COMMAND ----------
 
+create table beans (name STRING, color STRING, grams FLOAT, delicious BOOLEAN);
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC **NOTE**: We'll use Python to run checks occasionally throughout the lab. The following cell will return as error with a message on what needs to change if you have not followed instructions. No output from cell execution means that you have completed this step.
 
@@ -94,6 +98,10 @@ INSERT INTO beans VALUES
 
 -- COMMAND ----------
 
+SELECT * FROM beans;
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC Insert the additional records provided below. Make sure you execute this as a single transaction.
 
@@ -104,6 +112,13 @@ INSERT INTO beans VALUES
 ('pinto', 'brown', 1.5, true),
 ('green', 'green', 178.3, true),
 ('beanbag chair', 'white', 40000, false)
+
+-- COMMAND ----------
+
+INSERT INTO beans VALUES
+('pinto', 'brown', 1.5, true),
+('green', 'green', 178.3, true),
+('beanbag chair', 'white', 40000, false);
 
 -- COMMAND ----------
 
@@ -128,6 +143,10 @@ INSERT INTO beans VALUES
 
 -- COMMAND ----------
 
+SELECT * FROM beans;
+
+-- COMMAND ----------
+
 UPDATE beans
 SET delicious = true
 WHERE name = "jelly"
@@ -143,6 +162,10 @@ WHERE name = "jelly"
 
 -- TODO
 <FILL-IN>
+
+-- COMMAND ----------
+
+UPDATE beans SET grams = 1500 WHERE name = 'pinto';
 
 -- COMMAND ----------
 
@@ -171,6 +194,10 @@ WHERE name = "jelly"
 
 -- TODO
 <FILL-IN>
+
+-- COMMAND ----------
+
+DELETE FROM beans WHERE delicious = 'false';
 
 -- COMMAND ----------
 
@@ -217,6 +244,17 @@ SELECT * FROM new_beans
 
 -- COMMAND ----------
 
+MERGE INTO beans b
+USING new_beans nb
+ON b.name = nb.name AND b.color = nb.color
+WHEN MATCHED 
+  THEN UPDATE SET b.grams = b.grams + nb.grams
+WHEN NOT MATCHED AND nb.delicious = 'true'
+  THEN INSERT *;
+
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC Run the cell below to check your work.
 
@@ -247,6 +285,10 @@ SELECT * FROM new_beans
 
 -- TODO
 <FILL-IN>
+
+-- COMMAND ----------
+
+DROP TABLE beans;
 
 -- COMMAND ----------
 

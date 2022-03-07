@@ -194,10 +194,10 @@ for s in spark.streams.active:
 
 # COMMAND ----------
 
-# %sql
-# SELECT * 
-# FROM streaming_tmp_vw
-# ORDER BY time
+#%sql
+#SELECT * 
+#FROM streaming_tmp_vw
+#ORDER BY time
 
 # COMMAND ----------
 

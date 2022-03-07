@@ -53,6 +53,11 @@ CREATE TABLE students
 
 -- COMMAND ----------
 
+-- MAGIC %py
+-- MAGIC display(dbutils.fs.ls("dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/1.3.1/1_3_1.db/students/"))
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC If we try to go back and run that cell again...it will error out! This is expected - because the table exists already, we receive an error.
 -- MAGIC 
@@ -193,6 +198,8 @@ WHEN MATCHED AND u.type = "update"
 WHEN MATCHED AND u.type = "delete"
   THEN DELETE
 WHEN NOT MATCHED AND u.type = "insert"
+  THEN INSERT *
+  WHEN NOT MATCHED AND u.type = "update"
   THEN INSERT *
 
 -- COMMAND ----------

@@ -190,6 +190,10 @@ SHOW TABLES;
 
 -- COMMAND ----------
 
+SELECT * FROM external_table;
+
+-- COMMAND ----------
+
 WITH flight_delays(
   total_delay_time,
   origin_airport,

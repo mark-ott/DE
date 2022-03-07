@@ -141,7 +141,7 @@ SELECT * FROM events_raw
 -- COMMAND ----------
 
 -- ANSWER
-CREATE OR REPLACE TABLE item_lookup 
+CREATE OR REPLACE TABLE item_lookup
 AS SELECT * FROM parquet.`${da.paths.datasets}/raw/item-lookup`
 
 -- COMMAND ----------

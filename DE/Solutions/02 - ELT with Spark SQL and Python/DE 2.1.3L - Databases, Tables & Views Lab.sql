@@ -263,9 +263,7 @@ FROM parquet.`${da.paths.working_dir}/weather`
 -- ANSWER
 
 CREATE OR REPLACE VIEW celsius
-AS (SELECT *
-  FROM weather_managed
-  WHERE UNIT = "C")
+AS (SELECT *   FROM weather_managed WHERE UNIT = "C")
 
 -- COMMAND ----------
 
@@ -277,9 +275,7 @@ AS (SELECT *
 -- ANSWER
 
 CREATE OR REPLACE TEMP VIEW celsius_temp
-AS (SELECT *
-    FROM weather_managed
-    WHERE UNIT = "C")
+AS (SELECT * FROM weather_managed WHERE UNIT = "C")
 
 -- COMMAND ----------
 
@@ -291,9 +287,7 @@ AS (SELECT *
 -- ANSWER
 
 CREATE OR REPLACE GLOBAL TEMP VIEW celsius_global
-AS (SELECT *
-    FROM weather_managed
-    WHERE UNIT = "C")
+AS (SELECT *  FROM weather_managed WHERE UNIT = "C")
 
 -- COMMAND ----------
 

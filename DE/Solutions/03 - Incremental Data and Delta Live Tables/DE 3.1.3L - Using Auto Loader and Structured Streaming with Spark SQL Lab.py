@@ -66,8 +66,7 @@ customers_checkpoint_path = f"{DA.paths.checkpoints}/customers"
 # MAGIC   state,
 # MAGIC   count(customer_id) AS customer_count
 # MAGIC   FROM customers_raw_temp
-# MAGIC   GROUP BY
-# MAGIC   state
+# MAGIC   GROUP BY state
 
 # COMMAND ----------
 

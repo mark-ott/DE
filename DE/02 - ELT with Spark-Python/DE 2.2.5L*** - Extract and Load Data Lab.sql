@@ -64,6 +64,14 @@
 
 -- COMMAND ----------
 
+-- Cannot use CTAS since doesn't accept Schema
+CREATE TABLE events_json (key BINARY, offset LONG, partition INTEGER, timestamp LONG, topic STRING, value BINARY) 
+USING json
+LOCATION "${da.paths.datasets}/raw/events-kafka/"
+
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC **NOTE**: We'll use Python to run checks occasionally throughout the lab. The following cell will return an error with a message on what needs to change if you have not followed instructions. No output from cell execution means that you have completed this step.
 
@@ -84,6 +92,12 @@
 
 -- TODO
 <FILL_IN>
+
+-- COMMAND ----------
+
+CREATE TABLE events_raw (key BINARY, offset LONG, partition INTEGER, timestamp LONG, topic STRING, value BINARY) 
+USING DELTA;
+
 
 -- COMMAND ----------
 
@@ -108,6 +122,11 @@
 
 -- COMMAND ----------
 
+INSERT INTO events_raw
+SELECT * FROM events_json;
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC Manually review the table contents to ensure data was written as expected.
 
@@ -115,6 +134,10 @@
 
 -- TODO
 <FILL_IN>
+
+-- COMMAND ----------
+
+SELECT * FROM events_raw;
 
 -- COMMAND ----------
 
@@ -137,6 +160,11 @@
 
 -- TODO
 <FILL_IN> ${da.paths.datasets}/raw/item-lookup
+
+-- COMMAND ----------
+
+CREATE TABLE item_lookup AS
+SELECT * FROM parquet.`${da.paths.datasets}/raw/item-lookup`
 
 -- COMMAND ----------
 

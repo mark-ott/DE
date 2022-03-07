@@ -82,6 +82,10 @@ DESCRIBE HISTORY sales
 
 -- COMMAND ----------
 
+SELECT * FROM sales;
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC A primary difference here has to do with how Delta Lake enforces schema on write.
 -- MAGIC 
@@ -147,6 +151,14 @@ SELECT *, current_timestamp() updated FROM parquet.`${da.paths.datasets}/raw/use
 
 -- COMMAND ----------
 
+SELECT * FROM users;
+
+-- COMMAND ----------
+
+SELECT * FROM users_update;
+
+-- COMMAND ----------
+
 MERGE INTO users a
 USING users_update b
 ON a.user_id = b.user_id
@@ -171,6 +183,14 @@ WHEN NOT MATCHED THEN INSERT *
 -- MAGIC This optimized command uses the same **`MERGE`** syntax but only provided a **`WHEN NOT MATCHED`** clause.
 -- MAGIC 
 -- MAGIC Below, we use this to confirm that records with the same **`user_id`** and **`event_timestamp`** aren't already in the **`events`** table.
+
+-- COMMAND ----------
+
+SELECT * FROM events limit 2;
+
+-- COMMAND ----------
+
+SELECT * FROM events_update limit 2;
 
 -- COMMAND ----------
 
@@ -200,6 +220,24 @@ WHEN NOT MATCHED AND b.traffic_source = 'email' THEN
 COPY INTO sales
 FROM "${da.paths.datasets}/raw/sales-30m"
 FILEFORMAT = PARQUET
+
+-- COMMAND ----------
+
+DESCRIBE HISTORY sales;
+
+-- COMMAND ----------
+
+DESCRIBE EXTENDED sales;
+
+-- COMMAND ----------
+
+-- MAGIC %py
+-- MAGIC display(dbutils.fs.ls("dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/2.2.4/2_2_4.db/sales/_delta_log/"))
+
+-- COMMAND ----------
+
+-- MAGIC %py
+-- MAGIC display(dbutils.fs.ls("dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/2.2.4/2_2_4.db/sales/_delta_log/_copy_into_log"))
 
 -- COMMAND ----------
 

@@ -135,7 +135,8 @@ FROM (
   FROM LIVE.sales_orders_cleaned 
   WHERE city = 'Los Angeles'
   )
-GROUP BY order_date, city, customer_id, customer_name, ordered_products_explode.curr
+GROUP BY order_date, city, customer_id, 
+         customer_name, ordered_products_explode.curr
 
 -- COMMAND ----------
 
