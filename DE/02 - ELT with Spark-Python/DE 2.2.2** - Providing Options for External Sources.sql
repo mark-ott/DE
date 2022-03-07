@@ -91,7 +91,21 @@ SELECT * FROM csv.`${da.paths.working_dir}/sales-csv`
 
 -- COMMAND ----------
 
-CREATE TABLE sales_csv
+DROP TABLE sales_csv;
+
+-- COMMAND ----------
+
+CREATE  TABLE sales_csv
+  (order_id LONG, email STRING, transactions_timestamp LONG, total_item_quantity INTEGER, purchase_revenue_in_usd DOUBLE, unique_items INTEGER, items STRING)
+USING CSV
+OPTIONS (
+  header = "true",
+  delimiter = "|",
+  path = "${da.paths.working_dir}/sales-csv")
+
+-- COMMAND ----------
+
+CREATE TABLE sales_csv2
   (order_id LONG, email STRING, transactions_timestamp LONG, total_item_quantity INTEGER, purchase_revenue_in_usd DOUBLE, unique_items INTEGER, items STRING)
 USING CSV
 OPTIONS (
@@ -227,7 +241,7 @@ SELECT COUNT(*) FROM sales_csv
 DROP TABLE IF EXISTS users_jdbc;
 
 CREATE TABLE users_jdbc
-USING org.apache.spark.sql.jdbc
+USING jdbc
 OPTIONS (
   url "jdbc:sqlite:/${da.username}_ecommerce.db",
   dbtable "users"

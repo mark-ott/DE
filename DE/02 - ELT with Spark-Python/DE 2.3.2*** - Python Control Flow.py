@@ -252,6 +252,16 @@ int("2")
 
 # COMMAND ----------
 
+# Bonus
+assert type("2") == int
+
+# COMMAND ----------
+
+# Bonus
+assert type("2") == int, "The value was NOT an integer"
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC Note that errors will stop the execution of a notebook script; all cells after an error will be skipped when a notebook is scheduled as a production job.
 # MAGIC 
@@ -404,7 +414,7 @@ result = simple_query_function(query)
 
 new_query = "CREATE OR REPLACE TEMP VIEW id_name_tmp_vw AS SELECT id, name FROM demo_tmp_vw"
 
-simple_query_function(new_query, preview=False)
+simple_query_function(query=new_query, preview=False)
 
 # COMMAND ----------
 

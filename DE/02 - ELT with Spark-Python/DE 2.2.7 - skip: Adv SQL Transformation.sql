@@ -45,6 +45,21 @@
 
 -- COMMAND ----------
 
+DESCRIBE events_raw
+
+-- COMMAND ----------
+
+ SELECT key, value FROM events_raw;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE TEMP VIEW events_strings AS
+  SELECT cast(key as STRING), cast(value as STRING) FROM events_raw;
+  
+SELECT * FROM events_strings
+
+-- COMMAND ----------
+
 CREATE OR REPLACE TEMP VIEW events_strings AS
   SELECT string(key), string(value) FROM events_raw;
   
@@ -86,6 +101,10 @@ CREATE OR REPLACE TEMP VIEW parsed_events AS
   FROM events_strings;
   
 SELECT * FROM parsed_events
+
+-- COMMAND ----------
+
+DESCRIBE parsed_events
 
 -- COMMAND ----------
 
@@ -137,7 +156,15 @@ WHERE ecommerce.purchase_revenue_in_usd IS NOT NULL
 
 -- COMMAND ----------
 
-SELECT user_id, event_timestamp, event_name, explode(items) AS item FROM events
+SELECT user_id, event_timestamp, event_name, items 
+FROM events 
+WHERE user_id = 'UA000000102464478' and event_name = 'cc_info'
+
+-- COMMAND ----------
+
+SELECT user_id, event_timestamp, event_name, 
+       explode(items) AS item FROM events
+WHERE user_id = 'UA000000102464478' and event_name = 'cc_info'
 
 -- COMMAND ----------
 
@@ -232,6 +259,10 @@ SELECT * FROM new_events_final
 
 -- COMMAND ----------
 
+SELECT * FROM sales_enriched limit 5;
+
+-- COMMAND ----------
+
 CREATE OR REPLACE TABLE transactions AS
 
 SELECT * FROM (
@@ -292,6 +323,10 @@ SELECT * FROM transactions
 
 -- COMMAND ----------
 
+DESCRIBE sales
+
+-- COMMAND ----------
+
 -- filter for sales of only king sized items
 SELECT
   order_id,
@@ -340,9 +375,7 @@ CREATE OR REPLACE TEMP VIEW king_item_revenues AS
 SELECT
   order_id,
   king_items,
-  TRANSFORM (
-    king_items,
-    k -> CAST(k.item_revenue_in_usd * 100 AS INT)
+  TRANSFORM (king_items, k -> CAST(k.item_revenue_in_usd * 100 AS INT)
   ) AS item_revenues
 FROM king_size_sales;
 

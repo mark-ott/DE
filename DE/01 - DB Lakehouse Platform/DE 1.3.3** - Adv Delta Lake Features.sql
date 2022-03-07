@@ -159,6 +159,10 @@ DESCRIBE DETAIL students
 
 -- COMMAND ----------
 
+SELECT * FROM students
+
+-- COMMAND ----------
+
 -- MAGIC %python
 -- MAGIC display(spark.sql(f"SELECT * FROM json.`{DA.paths.user_db}/students/_delta_log/00000000000000000007.json`"))
 
@@ -216,7 +220,11 @@ DESCRIBE HISTORY students
 
 -- COMMAND ----------
 
-SELECT * 
+SELECT * FROM students;
+
+-- COMMAND ----------
+
+SELECT *
 FROM students VERSION AS OF 3
 
 -- COMMAND ----------

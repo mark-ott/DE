@@ -101,6 +101,10 @@ WHEN NOT MATCHED AND b.delicious = true THEN
 
 -- COMMAND ----------
 
+DESCRIBE HISTORY beans;
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC If all the previous operations were completed as described you should see 7 versions of the table (**NOTE**: Delta Lake versioning starts with 0, so the max version number will be 6).
 -- MAGIC 
@@ -159,6 +163,10 @@ CREATE OR REPLACE TEMP VIEW pre_delete_vw AS
 
 -- COMMAND ----------
 
+CREATE OR REPLACE TEMP VIEW pre_delete_vw AS SELECT * FROM beans version as of 4;
+
+-- COMMAND ----------
+
 SELECT * FROM pre_delete_vw
 
 -- COMMAND ----------
@@ -186,6 +194,10 @@ SELECT * FROM pre_delete_vw
 
 -- TODO
 <FILL-IN>
+
+-- COMMAND ----------
+
+RESTORE TABLE beans VERSION AS OF 5;
 
 -- COMMAND ----------
 
@@ -217,6 +229,10 @@ DESCRIBE HISTORY beans
 
 -- TODO
 <FILL-IN>
+
+-- COMMAND ----------
+
+OPTIMIZE beans ZORDER BY name;
 
 -- COMMAND ----------
 
@@ -322,7 +338,7 @@ SELECT * FROM beans
 
 -- COMMAND ----------
 
--- SELECT * FROM beans@v1
+SELECT * FROM beans@v1
 
 -- COMMAND ----------
 

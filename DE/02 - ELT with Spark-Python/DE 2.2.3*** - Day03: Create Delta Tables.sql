@@ -75,11 +75,25 @@ SELECT * FROM sales_unparsed;
 
 -- COMMAND ----------
 
+DROP TABLE IF EXISTS events;
+
+-- COMMAND ----------
+
+CREATE TABLE events
+  USING CSV
+  LOCATION 'dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/source/eltwss/raw/sales-csv'
+
+-- COMMAND ----------
+
+SELECT * FROM events;
+
+-- COMMAND ----------
+
 CREATE OR REPLACE TEMP VIEW sales_tmp_vw
   (order_id LONG, email STRING, transactions_timestamp LONG, total_item_quantity INTEGER, purchase_revenue_in_usd DOUBLE, unique_items INTEGER, items STRING)
 USING CSV
 OPTIONS (
-  path "${da.paths.datasets}/raw/sales-csv",
+ path "${da.paths.datasets}/raw/sales-csv",
   header "true",
   delimiter "|"
 );
@@ -144,6 +158,10 @@ CREATE OR REPLACE TABLE purchase_dates (
   date DATE GENERATED ALWAYS AS (
     cast(cast(transaction_timestamp/1e6 AS TIMESTAMP) AS DATE))
     COMMENT "generated based on `transactions_timestamp` column")
+
+-- COMMAND ----------
+
+SELECT * FROM purchase_dates;
 
 -- COMMAND ----------
 
@@ -295,6 +313,19 @@ DEEP CLONE purchases
 
 -- COMMAND ----------
 
+DESCRIBE EXTENDED purchases_clone
+
+-- COMMAND ----------
+
+-- MAGIC %py
+-- MAGIC display(dbutils.fs.ls("dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/2.2.3/2_2_3.db/purchases_clone"))
+
+-- COMMAND ----------
+
+DESCRIBE HISTORY purchases_clone
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC Because all the data files must be copied over, this can take quite a while for large datasets.
 -- MAGIC 
@@ -304,6 +335,32 @@ DEEP CLONE purchases
 
 CREATE OR REPLACE TABLE purchases_shallow_clone
 SHALLOW CLONE purchases
+
+-- COMMAND ----------
+
+DESCRIBE EXTENDED purchases_shallow_clone
+
+-- COMMAND ----------
+
+SELECT count(*) FROM purchases_shallow_clone;
+
+-- COMMAND ----------
+
+SELECT count(*) FROM purchases
+
+-- COMMAND ----------
+
+INSERT INTO purchases
+SELECT * FROM purchases;
+
+-- COMMAND ----------
+
+SELECT count(*) FROM purchases_shallow_clone;
+
+-- COMMAND ----------
+
+-- MAGIC %py
+-- MAGIC display(dbutils.fs.ls("dbfs:/user/mark.ott@databricks.com/dbacademy/dewd/2.2.3/2_2_3.db/purchases_shallow_clone"))
 
 -- COMMAND ----------
 
@@ -325,7 +382,7 @@ SHALLOW CLONE purchases
 -- COMMAND ----------
 
 -- MAGIC %python 
--- MAGIC DA.cleanup()
+-- MAGIC #DA.cleanup()
 
 -- COMMAND ----------
 

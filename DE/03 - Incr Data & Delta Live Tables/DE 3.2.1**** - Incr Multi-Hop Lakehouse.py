@@ -138,6 +138,11 @@ DA.data_factory.load()
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC SELECT * FROM bronze;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC Trigger another file arrival with the following cell and you'll see the changes immediately detected by the streaming query you've written.
 

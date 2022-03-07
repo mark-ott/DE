@@ -234,7 +234,8 @@ CREATE OR REPLACE TEMPORARY VIEW temp_delays USING CSV OPTIONS (
   header "true",
   mode "FAILFAST" -- abort file parsing with a RuntimeException if any malformed lines are encountered
 );
-CREATE OR REPLACE TABLE external_table LOCATION '${da.paths.working_dir}/external_table' AS
+CREATE OR REPLACE TABLE external_table 
+LOCATION '${da.paths.working_dir}/external_table' AS
   SELECT * FROM temp_delays;
 
 SELECT * FROM external_table;
@@ -297,3 +298,11 @@ DROP DATABASE ${da.db_name}_custom_location CASCADE;
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>
+
+-- COMMAND ----------
+
+USE ${da.db_name}_default_location;
+
+CREATE TABLE table1 (c1 INT, c2 STRING)
+LOCATION '/path/';
+  

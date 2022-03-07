@@ -85,6 +85,10 @@ SELECT * FROM (
 
 -- COMMAND ----------
 
+SELECT * FROM events_pivot;
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC **NOTE**: We'll use Python to run checks occasionally throughout the lab. The helper functions below will return an error with a message on what needs to change if you have not followed instructions. No output means that you have completed this step.
 
@@ -147,6 +151,10 @@ JOIN transactions b
 
 -- COMMAND ----------
 
+SELECT * FROM clickpaths;
+
+-- COMMAND ----------
+
 -- MAGIC %md Run the cell below to confirm the table was created correctly.
 
 -- COMMAND ----------
@@ -181,6 +189,10 @@ SELECT
   EXISTS (items, i -> i.item_name LIKE "%Mattress") AS mattress,
   EXISTS (items, i -> i.item_name LIKE "%Pillow") AS pillow
 FROM sales
+
+-- COMMAND ----------
+
+SELECT * FROM sales_product_flags;
 
 -- COMMAND ----------
 

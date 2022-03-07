@@ -50,7 +50,8 @@
 CREATE INCREMENTAL LIVE TABLE sales_orders_raw
 COMMENT "The raw sales orders, ingested from /databricks-datasets."
 AS
-SELECT * FROM cloud_files("/databricks-datasets/retail-org/sales_orders/", "json", map("cloudFiles.inferColumnTypes", "true"))
+SELECT * FROM cloud_files("/databricks-datasets/retail-org/sales_orders/",
+              "json", map("cloudFiles.inferColumnTypes", "true"))
 
 -- COMMAND ----------
 
@@ -165,16 +166,16 @@ GROUP BY order_date, city, customer_id, customer_name, ordered_products_explode.
 
 -- COMMAND ----------
 
--- CREATE LIVE TABLE sales_order_in_chicago
--- COMMENT "Sales orders in Chicago."
--- AS
--- SELECT city, order_date, customer_id, customer_name, ordered_products_explode.curr, SUM(ordered_products_explode.price) as sales, SUM(ordered_products_explode.qty) as quantity, COUNT(ordered_products_explode.id) as product_count
--- FROM (
---   SELECT city, order_date, customer_id, customer_name, EXPLODE(ordered_products) as ordered_products_explode
---   FROM sales_orders_cleaned 
---   WHERE city = 'Chicago'
---   )
--- GROUP BY order_date, city, customer_id, customer_name, ordered_products_explode.curr
+CREATE LIVE TABLE sales_order_in_chicago
+COMMENT "Sales orders in Chicago."
+AS
+SELECT city, order_date, customer_id, customer_name, ordered_products_explode.curr, SUM(ordered_products_explode.price) as sales, SUM(ordered_products_explode.qty) as quantity, COUNT(ordered_products_explode.id) as product_count
+FROM (
+  SELECT city, order_date, customer_id, customer_name, EXPLODE(ordered_products) as ordered_products_explode
+  FROM LIVE.sales_orders_cleaned 
+  WHERE city = 'Chicago'
+  )
+GROUP BY order_date, city, customer_id, customer_name, ordered_products_explode.curr
 
 -- COMMAND ----------
 

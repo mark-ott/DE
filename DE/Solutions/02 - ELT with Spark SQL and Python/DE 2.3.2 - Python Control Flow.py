@@ -241,6 +241,10 @@ int("2")
 
 # COMMAND ----------
 
+float("2")
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC While Python will gladly cast a string containing numeric characters to a numeric type, it will not allow you to change other strings to numbers.
 # MAGIC 
