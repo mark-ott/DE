@@ -8,7 +8,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Create and Manage Interactive Clusters
+# MAGIC # Create and Manage Interactive Clusters*
 # MAGIC 
 # MAGIC A Databricks Cluster is a collection of cloud resources configured and deployed on demand by Databricks. While cluster configuration and deployment instructions exist within the Databricks-maintained cloud application, all resources are deployed in the customer's account.
 # MAGIC 
